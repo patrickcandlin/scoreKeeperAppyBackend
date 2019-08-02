@@ -5,7 +5,7 @@ class MatchesController < ApplicationController
   def index
     @matches = Match.all
 
-    render json: @matches
+    render json: MatchSerializer.new(@matches)
   end
 
   # GET /matches/1
@@ -15,7 +15,8 @@ class MatchesController < ApplicationController
 
   # POST /matches
   def create
-    @match = Match.new(match_params)
+    @match = Match.create(match_params)
+    player_match = PlayerMatch.create(match: @match, player_id: params[:player_id])
 
     if @match.save
       render json: @match, status: :created, location: @match
@@ -46,6 +47,6 @@ class MatchesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def match_params
-      params.require(:match).permit(:score, :completed)
+      params.require(:match).permit(:score, :completed, :discription, :match_time)
     end
 end
