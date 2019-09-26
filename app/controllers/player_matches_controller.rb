@@ -35,6 +35,7 @@ class PlayerMatchesController < ApplicationController
 
   # DELETE /player_matches/1
   def destroy
+    
     @player_match.destroy
   end
 

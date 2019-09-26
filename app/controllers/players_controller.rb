@@ -10,14 +10,13 @@ class PlayersController < ApplicationController
     end
 
     def create
-        new_player = Player.create(
-            email: params[:email],
-            first_name: params[:first_name],
-            last_name: params[:last_name],
-            birth_date: params[:birth_date],
-            player_ability_rating: params[:player_ability_rating],
-            sex: params[:sex]
-        )
+        new_player = Player.create(player_params)
         render json: PlayerSerializer.new(new_player)
+    end
+
+    private
+
+    def player_params
+        params.require(:player).permit(:first_name, :last_name, :birth_date, :player_ability_rating, :sex, :email)
     end
 end
